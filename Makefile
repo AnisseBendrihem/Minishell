@@ -6,7 +6,7 @@
 #    By: abendrih <abendrih@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/19 21:13:48 by abendrih          #+#    #+#              #
-#    Updated: 2025/10/19 21:41:14 by abendrih         ###   ########.fr        #
+#    Updated: 2025/10/27 05:32:30 by abendrih         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ LIBFT_DIR   = Libft
 LIBFT       = $(LIBFT_DIR)/libft.a
 
 CC          = gcc
-CFLAGS      = -Wall -Wextra -Werror -Iincludes -I$(LIBFT_DIR)
+CFLAGS      = -Wall -Wextra -Werror -g3 -Iincludes -I$(LIBFT_DIR)
 RM          = rm -rf
 
 SRC_DIR     = src
@@ -44,7 +44,7 @@ all: $(LIBFT) $(NAME)
 	printf "\n\n✅ $(NAME) compiled successfully.$(RESET)\n\n"
 
 $(NAME): $(OBJ)
-	@$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME) -lreadline
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(dir $@)
@@ -83,5 +83,9 @@ run: all
 	@./$(NAME)
 
 # ============================== META ===================================== #
-
+valgrind: $(NAME)
+	@echo "$(YELLOW)🔍 Lancement de Valgrind sur ./minishell..."
+	valgrind -q --suppressions=./ignore --trace-children=yes \
+		--leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes \
+		./minishell
 .PHONY: all clean fclean re run

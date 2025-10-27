@@ -8,7 +8,15 @@
         "**/CVS": true,
         "**/*.git": true,
         ".vscode": true,
-        "Libft": true
+        "Libft": true,
+        "ignore": true,
+        "minishell": true
     },
-    "explorerExclude.backup": {}
+    "explorerExclude.backup": {},
+    "files.associations": {
+        "signals.h": "c",
+        "minishell.h": "c",
+        "history.h": "c",
+        "readline.h": "c"
+    }
 }

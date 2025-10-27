@@ -6,7 +6,7 @@
 /*   By: abendrih <abendrih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 04:55:33 by abendrih          #+#    #+#             */
-/*   Updated: 2025/08/06 03:40:43 by abendrih         ###   ########.fr       */
+/*   Updated: 2025/10/27 02:16:02 by abendrih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,5 @@ void	ft_free(char **tab)
 		free(tab[i]);
 		i++;
 	}
-	free(tab);
+	// free(tab);
 }
