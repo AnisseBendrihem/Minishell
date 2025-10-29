@@ -10,13 +10,17 @@
         ".vscode": true,
         "Libft": true,
         "ignore": true,
-        "minishell": true
+        "minishell": true,
+        "obj": true,
+        "**/.gitignore": true
     },
     "explorerExclude.backup": {},
     "files.associations": {
         "signals.h": "c",
         "minishell.h": "c",
         "history.h": "c",
-        "readline.h": "c"
+        "readline.h": "c",
+        "executor.h": "c",
+        "lexer.h": "c"
     }
 }

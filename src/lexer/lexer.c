@@ -6,8 +6,72 @@
 /*   By: abendrih <abendrih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 04:18:54 by abendrih          #+#    #+#             */
-/*   Updated: 2025/10/27 04:36:03 by abendrih         ###   ########.fr       */
+/*   Updated: 2025/10/29 09:32:51 by abendrih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+// Actuellement : gère WORD et PIPE
+// À ajouter : < > << >> (redirections)
+// À ajouter plus tard : guillemets, variables
+t_token	*lexer(char *line)
+{
+	t_token	*head;
+	int		i;
+	int		start;
+	char	*word;
+
+	head = NULL;
+	i = 0;
+	while (line[i])
+	{
+		while (line[i] == ' ')
+			i++;
+		if (!line[i])
+			break ;
+		if (line[i] == '|')
+		{
+			token_addback(&head, token_new(TOKEN_PIPE, "|"));
+			i++;
+		}
+		else
+		{
+			start = i;
+			while (line[i] && line[i] != ' ' && line[i] != '|')
+				i++;
+			word = ft_substr(line, start, i - start);
+			token_addback(&head, token_new(TOKEN_WORD, word));
+			free(word);
+		}
+	}
+	return (head);
+}
+
+// Fonctionne bien pour commandes simples
+// Restera utile même avec les pipe
+char	**tokens_to_array(t_token **lst)
+{
+	int		i;
+	char	**args;
+
+	i = 0;
+	args = malloc(sizeof(char *) * (count_tokens(lst) + 1));
+	if (!args)
+		return (NULL);
+	while (*lst)
+	{
+		if ((*lst)->type != TOKEN_WORD)
+		{
+			args[i] = NULL;
+			if ((*lst)->next)
+				*lst = (*lst)->next;
+			return (args);
+		}
+		args[i] = ft_strdup((*lst)->value);
+		i++;
+		*lst = (*lst)->next;
+	}
+	args[i] = NULL;
+	return (args);
+}

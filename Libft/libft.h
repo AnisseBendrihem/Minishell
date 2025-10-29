@@ -6,7 +6,7 @@
 /*   By: abendrih <abendrih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 18:32:44 by abendrih          #+#    #+#             */
-/*   Updated: 2025/08/20 23:26:03 by abendrih         ###   ########.fr       */
+/*   Updated: 2025/10/29 09:59:56 by abendrih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,19 @@
 # define LIBFT_H
 
 /* Libc & Allocation */
-# include <assert.h>       // assert()
-# include <ctype.h>        // isdigit, isalpha, toupper, etc.
-# include <dirent.h>       // opendir, readdir, closedir
-# include <errno.h>        // errno, perror
-# include <fcntl.h>        // open, O_RDONLY, O_CREAT, etc.
-# include <float.h>        // FLT_MAX, DBL_EPSILON
-# include <grp.h>          // getgrgid
-# include <limits.h>       // INT_MAX, LONG_MIN, etc.
-# include <locale.h>       // setlocale
-# include <math.h>         // sin, cos, pow, sqrt
-# include <pwd.h>          // getpwuid
+# include <assert.h> // assert()
+# include <ctype.h>  // isdigit, isalpha, toupper, etc.
+# include <dirent.h> // opendir, readdir, closedir
+# include <errno.h>  // errno, perror
+# include <fcntl.h>  // open, O_RDONLY, O_CREAT, etc.
+# include <float.h>  // FLT_MAX, DBL_EPSILON
+# include <grp.h>    // getgrgid
+# include <limits.h> // INT_MAX, LONG_MIN, etc.
+# include <locale.h> // setlocale
+# include <math.h>   // sin, cos, pow, sqrt
+# include <pwd.h>    // getpwuid
+# include <readline/history.h>
+# include <readline/readline.h>
 # include <signal.h>       // signal, sigaction, kill, SIGUSR1, etc.
 # include <stdarg.h>       // va_list, va_start, va_arg, va_end
 # include <stdbool.h>      // bool, true, false
@@ -87,6 +89,7 @@ void					*ft_memchr(const void *s, int c, size_t n);
 int						ft_memcmp(const void *s1, const void *s2, size_t n);
 void					*ft_calloc(size_t count, size_t size);
 void					ft_free(char **tab);
+void					ft_free_2(char **tab);
 
 /* ************************************************************************** */
 /*                     Fonctions de Manipulation de Chaines                   */
