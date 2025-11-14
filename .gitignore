@@ -1,5 +1,2 @@
 .vscode
 *.o
-*.a
-minishell
-obj/
