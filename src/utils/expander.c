@@ -47,13 +47,10 @@ static char	*append_char(char *str, char c)
 {
 	char	*new_str;
 	char	char_str[2];
-	char	*tmp;
 
 	char_str[0] = c;
 	char_str[1] = '\0';
-	tmp = str;
 	new_str = ft_strjoin(str, char_str);
-	free(tmp);
 	return (new_str);
 }
 
@@ -62,7 +59,6 @@ static char	*expand_loop(char *str, t_shell *shell, char *result)
 	int		i;
 	char	*var_name;
 	char	*var_value;
-	char	*tmp;
 
 	i = 0;
 	while (str[i])
@@ -73,9 +69,7 @@ static char	*expand_loop(char *str, t_shell *shell, char *result)
 			i++;
 			var_name = extract_var_name(str, &i);
 			var_value = get_var_value(var_name, shell);
-			tmp = result;
 			result = ft_strjoin(result, var_value);
-			free(tmp);
 			free(var_name);
 			free(var_value);
 		}

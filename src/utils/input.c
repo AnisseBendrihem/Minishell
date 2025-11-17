@@ -36,7 +36,6 @@ char	*handle_multiline_input(char *line)
 {
 	char	*next;
 	char	*tmp;
-	char	*old_line;
 
 	while (has_unclosed_quotes(line))
 	{
@@ -45,10 +44,7 @@ char	*handle_multiline_input(char *line)
 			return (line);
 		add_history(next);
 		tmp = ft_strjoin(line, "\n");
-		old_line = line;
 		line = ft_strjoin(tmp, next);
-		free(old_line);
-		free(tmp);
 		free(next);
 	}
 	return (line);

@@ -77,22 +77,27 @@ char	*find_command(char *cmd, char **envp)
 	char	*valid_cmd;
 	int		i;
 
+	if (ft_strchr(cmd, '/'))
+	{
+		if (access(cmd, X_OK) == 0)
+			return (ft_strdup(cmd));
+		return (NULL);
+	}
 	i = 0;
 	path = get_path_from_env(envp);
 	dirs = ft_split(path, ':');
 	while (dirs[i])
 	{
-		tmp = ft_strjoin(dirs[i], "/");
+		tmp = ft_strjoin(ft_strdup(dirs[i]), "/");
 		valid_cmd = ft_strjoin(tmp, cmd);
 		if (access(valid_cmd, X_OK) == 0)
 		{
-			ft_free_2(&dirs[i + 1]);
-			free(dirs);
+			ft_free_2(dirs);
 			return (valid_cmd);
 		}
 		free(valid_cmd);
 		i++;
 	}
-	free(dirs);
+	ft_free_2(dirs);
 	return (NULL);
 }
