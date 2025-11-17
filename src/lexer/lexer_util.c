@@ -34,9 +34,10 @@ int	skip_spaces(const char *line, int i)
 	return (i);
 }
 
-char	*extract_quoted_word(char *line, int *i, char quote_char)
+char	*extract_quoted_word(char *line, int *i, char quote_char, t_shell *shell)
 {
 	char	*word;
+	char	*expanded;
 	int		start;
 
 	start = *i + 1;
@@ -44,10 +45,14 @@ char	*extract_quoted_word(char *line, int *i, char quote_char)
 	while (line[*i] && line[*i] != quote_char)
 		(*i)++;
 	if (line[*i] == '\0')
-	{
 		return (NULL);
-	}
 	word = ft_substr(line, start, *i - start);
 	(*i)++;
+	if (quote_char == '"')
+	{
+		expanded = expand_variables(word, shell, 0);
+		free(word);
+		return (expanded);
+	}
 	return (word);
 }

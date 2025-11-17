@@ -35,7 +35,7 @@ int	main(int ac, char **av, char **env)
 		}
 		add_history(line);
 		line = handle_multiline_input(line);
-		token = lexer(line);
+		token = lexer(line, &shell);
 		free(line);
 		if (token == NULL)
 			continue ;

@@ -42,9 +42,10 @@ int					is_space(char c);
 int					is_operator(char c);
 int					is_quote(char c);
 int					skip_spaces(const char *line, int i);
-char				*extract_quoted_word(char *line, int *i, char quote_char);
+char				*extract_quoted_word(char *line, int *i, char quote_char,
+						t_shell *shell);
 
 /* Lexer */
-t_token				*lexer(char *line);
+t_token				*lexer(char *line, t_shell *shell);
 
 #endif

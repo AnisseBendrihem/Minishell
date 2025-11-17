@@ -47,10 +47,11 @@ static int	handle_redirect(const char *line, int *i, t_token **head)
 	return (1);
 }
 
-static char	*accumulate_adjacent_parts(char *line, int *i)
+static char	*accumulate_adjacent_parts(char *line, int *i, t_shell *shell)
 {
 	char	*result;
 	char	*part;
+	char	*expanded;
 	int		start;
 
 	result = ft_strdup("");
@@ -58,7 +59,7 @@ static char	*accumulate_adjacent_parts(char *line, int *i)
 	{
 		if (is_quote(line[*i]))
 		{
-			part = extract_quoted_word(line, i, line[*i]);
+			part = extract_quoted_word(line, i, line[*i], shell);
 			if (!part)
 				return (free(result), NULL);
 		}
@@ -69,6 +70,9 @@ static char	*accumulate_adjacent_parts(char *line, int *i)
 				&& !is_quote(line[*i]))
 				(*i)++;
 			part = ft_substr(line, start, *i - start);
+			expanded = expand_variables(part, shell, 0);
+			free(part);
+			part = expanded;
 		}
 		result = ft_strjoin(result, part);
 		free(part);
@@ -76,11 +80,11 @@ static char	*accumulate_adjacent_parts(char *line, int *i)
 	return (result);
 }
 
-static int	handle_word(char *line, int *i, t_token **head)
+static int	handle_word(char *line, int *i, t_token **head, t_shell *shell)
 {
 	char	*word;
 
-	word = accumulate_adjacent_parts(line, i);
+	word = accumulate_adjacent_parts(line, i, shell);
 	if (word == NULL)
 		return (0);
 	if (word[0] == '\0')
@@ -93,7 +97,7 @@ static int	handle_word(char *line, int *i, t_token **head)
 	return (1);
 }
 
-t_token	*lexer(char *line)
+t_token	*lexer(char *line, t_shell *shell)
 {
 	t_token	*head;
 	int		i;
@@ -112,7 +116,7 @@ t_token	*lexer(char *line)
 		else if (line[i] == '>' || line[i] == '<')
 			ok = handle_redirect(line, &i, &head);
 		else
-			ok = handle_word(line, &i, &head);
+			ok = handle_word(line, &i, &head, shell);
 		if (ok == 0)
 			return (token_free(&head), NULL);
 	}

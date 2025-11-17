@@ -17,4 +17,7 @@
 int		has_unclosed_quotes(char *line);
 char	*handle_multiline_input(char *line);
 
+/* Variable expansion */
+char	*expand_variables(char *str, t_shell *shell, int in_single_quotes);
+
 #endif
