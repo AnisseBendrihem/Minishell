@@ -27,6 +27,7 @@ void	pipe_exec(t_ast *three, char **envp, t_ast *root, t_shell *shell)
 	int	pid;
 	int	pid2;
 	int	fd[2];
+	int	status;
 
 	pipe(fd);
 	pid = fork();
@@ -36,7 +37,7 @@ void	pipe_exec(t_ast *three, char **envp, t_ast *root, t_shell *shell)
 		close_fd(fd, 1);
 		mother_exec(three->left, envp, root, shell);
 		ast_free(&root);
-		exit(0);
+		exit(shell->exit_status);
 	}
 	pid2 = fork();
 	if (pid2 == 0)
@@ -45,10 +46,14 @@ void	pipe_exec(t_ast *three, char **envp, t_ast *root, t_shell *shell)
 		close_fd(fd, 0);
 		mother_exec(three->right, envp, root, shell);
 		ast_free(&root);
-		exit(0);
+		exit(shell->exit_status);
 	}
 	close(fd[0]);
 	close(fd[1]);
 	waitpid(pid, NULL, 0);
-	waitpid(pid2, NULL, 0);
+	waitpid(pid2, &status, 0);
+	if (WIFEXITED(status))
+		shell->exit_status = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+		shell->exit_status = 128 + WTERMSIG(status);
 }

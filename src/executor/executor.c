@@ -84,7 +84,7 @@ void	cmd_exec(t_ast *node, char **envp, t_shell *shell)
 {
 	char	*path;
 	int		id;
-
+	int		status;
 
 	if (is_builtin(node->args[0]))
 		return (exec_builtin_with_redir(node, shell));
@@ -96,8 +96,11 @@ void	cmd_exec(t_ast *node, char **envp, t_shell *shell)
 	if (id == 0)
 		child_exec(node, path, envp);
 	free(path);
-	wait(NULL);
-	shell->exit_status = 0;
+	waitpid(id, &status, 0);
+	if (WIFEXITED(status))
+		shell->exit_status = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+		shell->exit_status = 128 + WTERMSIG(status);
 }
 
 void	mother_exec(t_ast *three, char **envp, t_ast *root, t_shell *shell)
