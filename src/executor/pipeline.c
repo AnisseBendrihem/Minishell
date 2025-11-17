@@ -32,6 +32,7 @@ void	pipe_exec(t_ast *three, char **envp, t_ast *root, t_shell *shell)
 	pid = fork();
 	if (pid == 0)
 	{
+		setup_signals_exec();
 		close_fd(fd, 1);
 		mother_exec(three->left, envp, root, shell);
 		ast_free(&root);
@@ -40,6 +41,7 @@ void	pipe_exec(t_ast *three, char **envp, t_ast *root, t_shell *shell)
 	pid2 = fork();
 	if (pid2 == 0)
 	{
+		setup_signals_exec();
 		close_fd(fd, 0);
 		mother_exec(three->right, envp, root, shell);
 		ast_free(&root);

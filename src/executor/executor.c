@@ -73,6 +73,7 @@ static void	child_exec(t_ast *node, char *path, char **envp)
 		if (fd >= 0)
 			(dup2(fd, STDOUT_FILENO), close(fd));
 	}
+	setup_signals_exec();
 	execve(path, node->args, envp);
 	perror("execve");
 	free(path);
